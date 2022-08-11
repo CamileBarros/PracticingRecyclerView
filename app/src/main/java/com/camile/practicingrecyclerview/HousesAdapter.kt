@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.camile.practicingrecyclerview.models.HousesData
 import kotlinx.android.synthetic.main.res_house_list_item.view.*
 
@@ -30,15 +32,23 @@ class HousesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     class HouseViewHolder constructor(
-        listItemView : View
-    ): RecyclerView.ViewHolder(listItemView){
-        private val titleItem = listItemView.titleItem
-        private val subtitleItem = listItemView.subtitleItem
-        private val imageItem = listItemView.imageItem
+        itemView: View
+    ): RecyclerView.ViewHolder(itemView){
+        private val titleItem = itemView.titleItem
+        private val subtitleItem = itemView.subtitleItem
+        private val imageItem = itemView.imageItem
 
         fun bind(housesData: HousesData){
             titleItem.text = housesData.houseName
             subtitleItem.text = housesData.houseCharacteristics
+
+            Glide.with(itemView.context)
+                .load(housesData.houseSymbol)
+                .into(imageItem)
         }
+    }
+
+    fun setHousesViewData(housesData: List<HousesData>) {
+        this.listItems = housesData
     }
 }
