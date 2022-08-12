@@ -2,6 +2,7 @@ package com.camile.practicingrecyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.camile.practicingrecyclerview.viewdata.HousesViewData
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         getHousesViewData()
     }
     private fun initRecyclerView() {
-        housesAdapter = HousesAdapter {print("clicked")}
+        housesAdapter = HousesAdapter { Log.i("aqui", "clicked")}
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
