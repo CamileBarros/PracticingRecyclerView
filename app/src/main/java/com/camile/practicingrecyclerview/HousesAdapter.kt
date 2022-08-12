@@ -9,7 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.camile.practicingrecyclerview.models.HousesData
 import kotlinx.android.synthetic.main.res_house_list_item.view.*
 
-class HousesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
+class HousesAdapter(private val onItemClicked : (HousesData) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     private  var listItems : List<HousesData> = ArrayList()
 
@@ -22,7 +22,7 @@ class HousesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is HouseViewHolder -> {
-                holder.bind(listItems[position])
+                holder.bind(listItems[position], onItemClicked)
             }
         }
     }
@@ -38,13 +38,22 @@ class HousesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
         private val subtitleItem = itemView.subtitleItem
         private val imageItem = itemView.imageItem
 
-        fun bind(housesData: HousesData){
+        fun bind(housesData: HousesData, onItemClicked: (HousesData) -> Unit){
             titleItem.text = housesData.houseName
             subtitleItem.text = housesData.houseCharacteristics
 
+            val requestOptions = RequestOptions()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+
             Glide.with(itemView.context)
+                .applyDefaultRequestOptions(requestOptions)
                 .load(housesData.houseSymbol)
                 .into(imageItem)
+
+            itemView.setOnClickListener(){
+                onItemClicked(housesData)
+            }
         }
     }
 
